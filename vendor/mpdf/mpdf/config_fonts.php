@@ -281,8 +281,11 @@ $this->fontdata = array(
 	 
 	 
 	 ),
-	 "kanit" => array(/* Korean */
+	 "kanit" => array(/* Thai */
 		'R' => "Kanit-Medium.ttf",
+	),
+	"mitr" => array(/* Thai */
+		'R' => "Mitr-Light.ttf",
 	),
 );
 

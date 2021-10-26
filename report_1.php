@@ -112,10 +112,11 @@ ob_start(); // Start get HTML code
         }
 
         .number {
-            font-size: 16px;
+            font-size: 24px;
             margin-top: -30%;
             margin-right: 5px;
             text-align: right;
+            font-family: "thsarabun";
         }
     </style>
 </head>
