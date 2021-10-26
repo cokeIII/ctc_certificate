@@ -12,6 +12,7 @@ header('Content-Type: text/html; charset=utf-8');
 $mpdf = new mPDF();
 $mpdf->AddPage('L');
 $mpdf->SetDisplayMode('fullwidth');
+$mpdf->SetDisplayMode(100);
 session_start();
 date_default_timezone_set("asia/bangkok");
 echo $train_id = $_POST["train_id"];
@@ -88,7 +89,7 @@ ob_start(); // Start get HTML code
     <link href="https://fonts.googleapis.com/css?family=Sarabun&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: "kanit";
+            
         }
 
         #cover {
@@ -106,11 +107,12 @@ ob_start(); // Start get HTML code
             color: #040A9E;
             text-align: center;
             margin-top: 27%;
+            font-family: "kanit";
             /* font-weight: bold; */
         }
 
         .number {
-            font-size: 20px;
+            font-size: 16px;
             margin-top: -30%;
             margin-right: 5px;
             text-align: right;
@@ -121,7 +123,7 @@ ob_start(); // Start get HTML code
 <body>
     <div id="cover" style="position: absolute; z-index:-1; left:0.5px; right: 0; top: 0; bottom: 0; width:100%; height:100%;">
         <div class="text name"><?php echo $people_name;?></div>
-        <div class="number"><?php echo $train_code."/10-2564";?></div>
+        <div class="number"><?php echo "เลขที่ ".$train_code."/10-2564";?></div>
     </div>
 </body>
 
