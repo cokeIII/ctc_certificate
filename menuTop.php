@@ -7,7 +7,11 @@
         <li class="nav-item active"><span class="nav-link" href="#!">ระบบ พิมพ์ใบประกาศ วิทยาลัยเทคนิคชลบุรี</span></li>
         <?php if (empty($_SESSION["people_id"])) { ?>
           <li class="nav-item active"><a class="nav-link" href="index.php"><i class="fas fa-sign-in-alt"></i> เข้าสู่ระบบ</a></li>
+
         <?php } else { ?>
+          <?php if ($_SESSION["people_name"] == "admin") { ?>
+            <li class="nav-item active"><a class="nav-link" href="manager.php"><i class="fas fa-tools"></i> ตั้งค่า</a></li>
+          <?php } ?>
           <li class="nav-item active"><a class="nav-link" href="main.php"><i class="fas fa-print"></i> พิมพ์ใบประกาศ</a></li>
           <li class="nav-item active"><a class="nav-link" href="logout.php"><i class="fas fa-sign-out-alt"></i> ออกจากระบบ</a></li>
         <?php } ?>

@@ -110,7 +110,6 @@ ob_start(); // Start get HTML code
             font-family: "kanit";
             /* font-weight: bold; */
         }
-
         .number {
             font-size: 24px;
             margin-top: -30%;

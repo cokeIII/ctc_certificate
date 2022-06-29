@@ -24,8 +24,13 @@
             <?php require_once "menuTop.php"; ?>
             <!-- Page content-->
             <div class="container-fluid">
-                <div class="card mt-5 shadow">
+                <div class="card mt-5">
                     <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#insertData"><i class="fas fa-plus-circle"></i> เพิ่มรายการอบรม</button>
+                            </div>
+                        </div>
                         <table class="table" id="listTrain">
                             <thead>
                                 <tr>
@@ -47,12 +52,52 @@
 </body>
 
 </html>
+<!-- Modal -->
+<div class="modal fade" id="insertData" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header"><h5>เพิ่มรายการอบรม</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="insert_train.php" method="post">
+                    <div class="form-group mt-2">
+                        <label>ชื่อรายการอบรม</label>
+                        <input type="text" name="train_name" id="train_name" class="form-control">
+                    </div>
+                    <div class="form-group mt-2">
+                        <label>วันที่เริ่ม</label>
+                        <input type="date" name="date_start" id="date_start" class="form-control">
+                    </div>
+                    <div class="form-group mt-2">
+                        <label>วันที่จบ</label>
+                        <input type="date" name="date_end" id="date_end" class="form-control">
+                    </div>
+                    <div class="form-group mt-2">
+                        <label>หมายเลขเริ่มใบประกาศ</label>
+                        <input type="numer" name="cer_min" id="cer_min" class="form-control">
+                    </div>
+                    <div class="form-group mt-2">
+                        <label>หมายเลขจบใบประกาศ</label>
+                        <input type="numer" name="cer_max" id="cer_max" class="form-control">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12"><button class="btn btn-primary mt-3 float-end">เพิ่มรายการ</button></div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 <?php require_once "setFoot.php"; ?>
 <script>
     $(document).ready(function() {
-        $(document).on('click', '.btnPrint', function() {
-            $.redirect("report_1.php", {train_id:$(this).attr("trainId")}, "POST", "_blank");
-        })
+        // $(document).on('click', '.btnPrint', function() {
+        //     $.redirect("report_1.php", {train_id:$(this).attr("trainId")}, "POST", "_blank");
+        // })
         $('#listTrain').DataTable({
             "paging": true,
             "lengthChange": true,
@@ -65,7 +110,7 @@
             "pageLength": 30,
             "scrollX": true,
             "ajax": {
-                "url": "getTrain.php",
+                "url": "getTrainSet.php",
                 "type": "POST",
                 "data": function(d) {
                     d.getData = true
@@ -82,7 +127,7 @@
                     "data": "date"
                 },
                 {
-                    "data": "btn_print"
+                    "data": "btn_set"
                 }
             ],
             "language": {
