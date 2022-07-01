@@ -2,16 +2,20 @@
 header('Content-Type: text/html; charset=UTF-8');
 session_start();
 $people_id = $_SESSION["people_id"];
+$users = $_SESSION["people_name"];
 require_once "connect.php";
 require_once "function.php";
 $sql = "select * from train t
 inner join pass_users p on p.train_id = t.train_id
 where p.people_id = '$people_id'
 ";
+if ($users == "admin") {
+    $sql = "select * from train";
+}
 $res = mysqli_query($conn, $sql);
 $data = array();
 $i = 0;
-$data["data"][$i]["no"] ="ไม่พบรายการอบรม";
+$data["data"][$i]["no"] = "ไม่พบรายการอบรม";
 $data["data"][$i]["train_name"] = "";
 $data["data"][$i]["date"] = "";
 $data["data"][$i]["btn_print"] = "";
