@@ -15,17 +15,18 @@ $mpdf->SetDisplayMode('fullwidth');
 $mpdf->SetDisplayMode(100);
 session_start();
 date_default_timezone_set("asia/bangkok");
-echo $train_id = $_POST["train_id"];
-echo $people_name = $_SESSION["people_name"];
-echo $people_id = $_SESSION["people_id"];
+$train_id = $_POST["train_id"];
+$people_name = $_SESSION["people_name"];
+$people_id = $_SESSION["people_id"];
 
 $sqlC = "select * from trained where train_id='$train_id' and train_code != '' and people_id = '$people_id'";
 $resC = mysqli_query($conn, $sqlC);
 $numC = mysqli_num_rows($resC);
 $rowC = mysqli_fetch_array($resC);
-echo  $numC;
+$sqlD = "select * from train where train_id='$train_id'";
+$resD = mysqli_query($conn, $sqlD);
+$rowD = mysqli_fetch_array($resD);
 if ($numC <= 0) {
-    echo 1;
     $sqlT = "select * from train where train_id='$train_id'";
     $resT = mysqli_query($conn, $sqlT);
     $rowT = mysqli_fetch_array($resT);
@@ -35,7 +36,7 @@ if ($numC <= 0) {
     $sqlCode = "select max(train_code) as currentCode from trained where train_id='$train_id'";
     $resCode = mysqli_query($conn, $sqlCode);
     $rowCode = mysqli_fetch_array($resCode);
-    echo "<br>".$rowCode["currentCode"]."<br>";
+    echo "<br>" . $rowCode["currentCode"] . "<br>";
     if (empty($rowCode["currentCode"])) {
         echo 2;
         $train_code = $cer_min;
@@ -46,11 +47,11 @@ if ($numC <= 0) {
             $train_code = $rowCode["currentCode"] + 1;
         }
     }
-    if(!empty($people_id) && !empty($train_code)){
+    if (!empty($people_id) && !empty($train_code)) {
         echo 3;
         $sqlIn = "insert into trained (train_id,train_code,people_id) value('$train_id','$train_code','$people_id')";
         mysqli_query($conn, $sqlIn);
-        echo "<br>".$sqlIn;
+        echo "<br>" . $sqlIn;
     } else {
         header("location:errPage.php?textErr=กรุณาเข้าสู่ระบบใหม่อีกครั้ง <a href='index.php'>เข้าสู่ระบบ<a/>");
     }
@@ -88,12 +89,10 @@ ob_start(); // Start get HTML code
     <link rel="icon" type="image/png" href="images/icons/ovec-removebg.ico" />
     <link href="https://fonts.googleapis.com/css?family=Sarabun&display=swap" rel="stylesheet">
     <style>
-        body {
-            
-        }
+        body {}
 
         #cover {
-            background-image: url("img/cer/report1.png");
+            background-image: url("<?php echo $rowD["pic_cer"]; ?>");
             /* background-image-resize: 6; */
             background-size: cover;
         }
@@ -110,6 +109,7 @@ ob_start(); // Start get HTML code
             font-family: "kanit";
             /* font-weight: bold; */
         }
+
         .number {
             font-size: 24px;
             margin-top: -30%;
@@ -121,9 +121,14 @@ ob_start(); // Start get HTML code
 </head>
 
 <body>
+    <?php
+    $date_end = explode("-",$rowD["date_end"]);
+    $m = $date_end[1];
+    $Y = $date_end[0]+543;
+    ?>
     <div id="cover" style="position: absolute; z-index:-1; left:0.5px; right: 0; top: 0; bottom: 0; width:100%; height:100%;">
-        <div class="text name"><?php echo $people_name;?></div>
-        <div class="number"><?php echo "เลขที่ ".$train_code."/10-2564";?></div>
+        <div class="text name"><?php echo $people_name; ?></div>
+        <div class="number"><?php echo "เลขที่ " . $train_code . "/".$m."-".$Y; ?></div>
     </div>
 </body>
 
@@ -131,7 +136,7 @@ ob_start(); // Start get HTML code
 <?php
 $html = ob_get_contents();
 $mpdf->WriteHTML($html);
-$taget = "pdf/certificate_1.pdf";
+$taget = "pdf/certificate_".$train_id.".pdf";
 $mpdf->Output($taget);
 ob_end_flush();
 echo "<script>window.location.href='$taget';</script>";
