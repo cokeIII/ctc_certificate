@@ -1,7 +1,7 @@
 <?php
 $servername = "localhost";
 $username = "root";
-$password = "chontech2020!";
+$password = "";
 $db = "ctc_certificate";
 // Create connection
 $conn = new mysqli($servername, $username, $password,$db);
